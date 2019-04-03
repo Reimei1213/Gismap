@@ -1,0 +1,60 @@
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+
+<link rel="apple-touch-icon" href="app-icon.png"/>
+<meta property="og:image" content="ogp-image.jpg"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script src="https://code4fukui.github.io/egmapjs/egmap.js"></script>
+<link rel="stylesheet" href="https://code4fukui.github.io/egmapjs/egmap.css"/>
+<script src="https://fukuno.jig.jp/fukuno.js"></script>
+<script src="https://code4fukui.github.io/egmapjs/sparql.js"></script>
+<script>"use strict"
+window.onload = function() {
+	var map = initMap('mapid')
+	map.setZoom(5)
+	map.panTo([ 35.943560,136.188917 ]) // 鯖江駅
+	  map.addIcon(35.944571, 136.186228 , "ユーザー", "<%= Routes.static_path(@conn, "/images/icon2.png") %>",64)
+
+  <%
+    {:ok, kosens} = "/Users/reimei/hack/gismap/kosen.json" |> File.read! |> Poison.decode
+    {:ok, tenpos} = "/Users/reimei/hack/gismap/Tenpo.json" |> File.read! |> Poison.decode
+  %>
+
+		<%= for tenpo <- tenpos do %>
+    map.addIcon(<%= Map.fetch!(tenpo, "緯度") %>, <%= Map.fetch!(tenpo, "経度") %> , '<%=Map.fetch!(tenpo, "名前") %>', "<%= Routes.static_path(@conn, "/images/icon.png") %>",50)
+  <% end %>
+  /*
+	// SPARQLクエリー
+	var query = `
+		prefix ic: <http://imi.go.jp/ns/core/rdf#>
+		prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+		select ?uri ?name ?lat ?lng {
+			?uri ic:名称 [ ic:表記 ?name ].
+			?uri ic:地理座標 [ ic:緯度 ?lat; ic:経度 ?lng; ].
+			filter(contains(str(?name),'鯖江'))
+		} limit 100
+	`
+	querySPARQL(query, function(data) {
+		var items = data.results.bindings
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i]
+			var lat = item.lat.value
+			var lng = item.lng.value
+			var name = item.name.value
+			map.addIcon(lat, lng, name)
+		}
+	})
+  */
+}
+</script>
+<style>
+body { margin: 0; font-family: sans-serif; text-align: center; }
+h1 { font-size: 5vw; margin: 0; }
+#mapid { height: 60vh; }
+</style></head><body>
+
+
+<div id="mapid"></div>
+
+</body></html>

@@ -1,0 +1,134 @@
+ <center>
+ <body>
+ <p class="sample">
+  高専生の行くところ
+ </p>
+  
+ <form name="circe">
+
+ <select name="contents" onchange="selectNavi()">
+
+  <option selected>お好きな高専を選んでください</option>
+  <option>全国高専ツアー</option>
+  <option>函館工業高等専門学校</option>
+  <option>苫小牧工業高等専門学校</option>
+  <option>釧路工業高等専門学校</option>
+  <option>旭川工業高等専門学校</option>
+  <option>八戸工業高等専門学校</option>
+  <option>一関工業高等専門学校</option>
+  <option>仙台高等専門学校</option>
+  <option>秋田工業高等専門学校</option>
+  <option>鶴岡工業高等専門学校</option>
+  <option>福島工業高等専門学校</option>
+  <option>茨城工業高等専門学校</option>
+  <option>小山工業高等専門学校</option>
+  <option>群馬工業高等専門学校</option>
+  <option>木更津工業高等専門学校</option>
+  <option>東京工業高等専門学校</option>
+  <option>東京都立産業技術高等専門学校</option>
+  <option>サレジオ工業高等専門学校</option>
+  <option>長岡工業高等専門学校</option>
+  <option>富山高等専門学校</option>
+  <option>石川工業高等専門学校</option>
+  <option>国際高等専門学校</option>
+  <option>福井工業高等専門学校</option>
+  <option>長野工業高等専門学校</option>
+  <option>岐阜工業高等専門学校</option>
+  <option>沼津工業高等専門学校</option>
+  <option>豊田工業高等専門学校</option>
+  <option>鳥羽商船高等専門学校</option>
+  <option>鈴鹿工業高等専門学校</option>
+  <option>近畿大学工業高等専門学校</option>
+  <option>舞鶴工業高等専門学校</option>
+  <option>大阪府立大学工業高等専門学校</option>
+  <option>明石工業高等専門学校</option>
+  <option>神戸市立工業高等専門学校</option>
+  <option>奈良工業高等専門学校</option>
+  <option>和歌山工業高等専門学校</option>
+  <option>米子工業高等専門学校</option>
+  <option>松江工業高等専門学校</option>
+  <option>津山工業高等専門学校</option>
+  <option>広島商船高等専門学校</option>
+  <option>呉工業高等専門学校</option>
+  <option>徳山工業高等専門学校</option>
+  <option>宇部工業高等専門学校</option>
+  <option>大島商船高等専門学校</option>
+  <option>阿南工業高等専門学校</option>
+  <option>香川高等専門学校</option>
+  <option>新居浜工業高等専門学校</option>
+  <option>弓削商船高等専門学校</option>
+  <option>高知工業高等専門学校</option>
+  <option>北九州工業高等専門学校</option>
+  <option>久留米工業高等専門学校</option>
+  <option>有明工業高等専門学校</option>
+  <option>佐世保工業高等専門学校</option>
+  <option>熊本高等専門学校</option>
+  <option>大分工業高等専門学校</option>
+  <option>都城工業高等専門学校</option>
+  <option>鹿児島工業高等専門学校</option>
+  <option>沖縄工業高等専門学校</option>
+
+ </select>
+
+ </form>
+ <p>
+
+<% 
+
+
+
+%>
+ <%= link "全国高専ツアー", to: Routes.page_path(@conn, :map) %><br>
+
+ <%= link "徳山工業高等専門学校", to: Routes.page_path(@conn, :map2) %>
+
+ </p>
+ </center>
+ <style>
+  p.sample {font: bold large/150% "ＭＳ POP"; }
+  p.sample {font-size:200%;}
+ </style>
+
+<script>
+
+
+function test() {
+    navigator.geolocation.getCurrentPosition(test2);
+}
+
+function test2(position) {
+
+    var geo_text = "緯度:" + position.coords.latitude + "\n";
+    geo_text += "経度:" + position.coords.longitude + "\n";
+    geo_text += "高度:" + position.coords.altitude + "\n";
+    geo_text += "位置精度:" + position.coords.accuracy + "\n";
+    geo_text += "高度精度:" + position.coords.altitudeAccuracy  + "\n";
+    geo_text += "移動方向:" + position.coords.heading + "\n";
+    geo_text += "速度:" + position.coords.speed + "\n";
+
+    var date = new Date(position.timestamp);
+
+    geo_text += "取得時刻:" + date.toLocaleString() + "\n";
+
+    var lat = 33.95;
+    var lot = 131.27;
+
+    var latrad1 = Math.PI/180*position.coords.latitude;
+    var latrad2 = Math.PI/180*lat;
+    var lotrad1 = Math.PI/180*position.coords.longitude;
+    var lotrad2 = Math.PI/180*lot;
+
+    var kyori = 6378137.0*2*Math.asin(Math.sqrt(Math.pow(Math.sin((latrad1 - latrad2) / 2), 2) + Math.cos(latrad1) * Math.cos(latrad2) * Math.pow(Math.sin((lotrad1 - lotrad2) / 2), 2)));
+
+    geo_text += "距離" + kyori +"\n";
+
+    alert(geo_text);
+
+}
+</script>
+
+
+
+<center>
+<button onclick="test()">test</button>
+</center>

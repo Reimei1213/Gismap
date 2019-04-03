@@ -1,0 +1,5 @@
+$ cd hack
+$ cd gismap
+$ iex -S mix phi.server
+
+リンク　　http://localhost:4000
